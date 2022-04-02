@@ -86,6 +86,19 @@ inline Vector3d normalize(const Vector3d& v)
 	return v / magnitude(v);
 }
 
+inline float dot(const Vector3d& a, const Vector3d& b)
+{
+	return (a.x * b.x + a.y * b.y + a.z * b.z);
+}
+
+inline Vector3d cross(const Vector3d& a, const Vector3d& b)
+{
+	return Vector3d(
+		a.y * b.z - a.z * b.y,
+		a.z * b.x - a.x * b.z, 
+		a.x * b.y - a.y * b.x);
+}
+
 inline Vector3d operator+ (const Vector3d& a, const Vector3d& b)
 {
 	return Vector3d(a.x + b.x, a.y + b.y, a.z + b.z);

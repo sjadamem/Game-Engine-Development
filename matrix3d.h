@@ -141,3 +141,39 @@ Matrix3d inverse(const Matrix3d& m)
 		r2.x, r2.y, r2.z
 	) * invDet;
 }
+
+Matrix3d rotateX(float angle)
+{
+	float c = cos(angle);
+	float s = sin(angle);
+
+	return Matrix3d(
+		1.0F, 0.0F, 0.0F,
+		0.0F, c,	-s,
+		0.0F, s,	c
+	);
+}
+
+Matrix3d rotateY(float angle)
+{
+	float c = cos(angle);
+	float s = sin(angle);
+
+	return Matrix3d(
+		c,	  0.0F, s,
+		0.0F, 0.0F, 1.0F,
+		-s,   0.0F, c
+	);
+}
+
+Matrix3d rotateZ(float angle)
+{
+	float c = cos(angle);
+	float s = sin(angle);
+
+	return Matrix3d(
+		c,	  s,	0.0F,
+		-s,	  c,	0.0F,
+		0.0F, 0.0F, 1.0F
+	);
+}

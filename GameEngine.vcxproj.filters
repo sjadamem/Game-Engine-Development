@@ -26,5 +26,11 @@
     <ClInclude Include="matrix3d.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="matrix4d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vector4d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

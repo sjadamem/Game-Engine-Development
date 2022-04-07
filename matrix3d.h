@@ -83,6 +83,21 @@ Matrix3d operator*(const Matrix3d& a, const Matrix3d& b)
 	);
 }
 
+Matrix3d operator*(const Matrix3d& a, float b)
+{
+	return Matrix3d(
+		a(0, 0) * b,
+		a(0, 1) * b,
+		a(0, 2) * b,
+		a(1, 0) * b,
+		a(1, 1) * b,
+		a(1, 2) * b,
+		a(2, 0) * b,
+		a(2, 1) * b,
+		a(2, 2) * b
+	);
+}
+
 Vector3d operator*(const Matrix3d& m, const Vector3d& v)
 {
 	return Vector3d(
@@ -90,4 +105,39 @@ Vector3d operator*(const Matrix3d& m, const Vector3d& v)
 		m(1, 0) * v[0] + m(1, 1) * v[1] + m(1, 2) * v[2],
 		m(2, 0) * v[0] + m(2, 1) * v[1] + m(2, 2) * v[2]
 	);
+}
+
+inline Matrix3d identity()
+{
+	return Matrix3d(
+		1.0F, 0.0F, 0.0F,
+		0.0F, 1.0F, 0.0F,
+		0.0F, 0.0F, 1.0F
+	);
+}
+
+float determinant(const Matrix3d& m)
+{
+	return (m(0, 0) * m(1, 1) * m(2, 2) - m(0, 0) * m(1, 2) * m(2, 1)) +
+		(m(0, 1) * m(1, 2) * m(2, 0) - m(0, 1) * m(1, 0) * m(2, 2)) +
+		(m(0, 2) * m(1, 0) * m(2, 1) - m(0, 2) * m(1, 1) * m(2, 0));
+}
+
+Matrix3d inverse(const Matrix3d& m)
+{
+	const Vector3d& a = m[0];
+	const Vector3d& b = m[1];
+	const Vector3d& c = m[2];
+
+	Vector3d r0 = cross(b, c);
+	Vector3d r1 = cross(c, a);
+	Vector3d r2 = cross(a, b);
+
+	float invDet = 1.0F / dot(r2, c);
+
+	return Matrix3d(
+		r0.x, r0.y, r0.z,
+		r1.x, r1.y, r1.z,
+		r2.x, r2.y, r2.z
+	) * invDet;
 }

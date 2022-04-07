@@ -76,6 +76,16 @@ inline Vector3d operator- (const Vector3d& v)
 	return Vector3d(-v.x, -v.y, -v.z);
 }
 
+inline Vector3d operator+ (const Vector3d& a, const Vector3d& b)
+{
+	return Vector3d(a.x + b.x, a.y + b.y, a.z + b.z);
+}
+
+inline Vector3d operator- (const Vector3d& a, const Vector3d& b)
+{
+	return a + (-b);
+}
+
 inline float magnitude(const Vector3d& v)
 {
 	return sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);
@@ -83,7 +93,7 @@ inline float magnitude(const Vector3d& v)
 
 inline Vector3d normalize(const Vector3d& v)
 {
-	return v / magnitude(v);
+	return (v / magnitude(v));
 }
 
 inline float dot(const Vector3d& a, const Vector3d& b)
@@ -95,16 +105,22 @@ inline Vector3d cross(const Vector3d& a, const Vector3d& b)
 {
 	return Vector3d(
 		a.y * b.z - a.z * b.y,
-		a.z * b.x - a.x * b.z, 
+		a.z * b.x - a.x * b.z,
 		a.x * b.y - a.y * b.x);
 }
 
-inline Vector3d operator+ (const Vector3d& a, const Vector3d& b)
+inline Vector3d tripleProduct(const Vector3d& a, const Vector3d& b, const Vector3d& c)
 {
-	return Vector3d(a.x + b.x, a.y + b.y, a.z + b.z);
+	return cross(a, cross(b, c));
 }
 
-inline Vector3d operator- (const Vector3d& a, const Vector3d& b)
+//Useful in Separation Axis Theorem when figuring out if two convex shapes are colliding
+inline Vector3d project(const Vector3d& a, const Vector3d& b)
 {
-	return a + (-b);
+	return b * (dot(a, b) / dot(b, b));
+}
+
+inline Vector3d reject(const Vector3d& a, const Vector3d& b)
+{
+	return (a - b * (dot(a, b) / dot(b, b)));
 }

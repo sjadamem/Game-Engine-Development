@@ -143,7 +143,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="matrix3d.h" />
+    <ClInclude Include="matrix4d.h" />
     <ClInclude Include="vector3d.h" />
+    <ClInclude Include="vector4d.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

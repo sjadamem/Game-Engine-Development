@@ -34,6 +34,9 @@ int main()
 	cout << "[6] -> " << m3(0, 2) << endl;
 	cout << "[7] -> " << m3(1, 2) << endl;
 	cout << "[8] -> " << m3(2, 2) << endl;
-
+	
+	cout << "DOT PRODUCT (v1 * v2)\n" << dot(v1, v2) << endl;
+	cout << "DETERMINANT (m1)\n" << determinant(m2) << endl;
+	
 	system("pause");
 }

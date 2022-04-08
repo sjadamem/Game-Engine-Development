@@ -68,15 +68,40 @@ public:
 	}
 };
 
+Matrix3d operator-(const Matrix3d& a)
+{
+	return Matrix3d(
+		-a(0,0), -a(0,1), -a(0,2),
+		-a(1,0), -a(1,1), -a(1,2),
+		-a(2,0), -a(2,1), -a(2,2)
+	);
+}
+
+Matrix3d operator+(const Matrix3d& a, const Matrix3d& b)
+{
+	return Matrix3d(
+		a(0, 0) + b(0, 0),	a(0, 1) + b(0, 1),	a(0, 2) + b(0, 2),
+		a(1, 0) + b(1, 0),	a(1, 1) + b(1, 1),	a(1, 2) + b(1, 2),
+		a(2, 0) + b(2, 0),	a(2, 1) + b(2, 1),	a(2, 2) + b(2, 2)
+	);
+}
+
+Matrix3d operator-(const Matrix3d& a, const Matrix3d& b)
+{
+	return a + (-b);
+}
+
 Matrix3d operator*(const Matrix3d& a, const Matrix3d& b)
 {
 	return Matrix3d(
 		a(0, 0) * b(0, 0) + a(0, 1) * b(1, 0) + a(0, 2) * b(2, 0),
 		a(0, 0) * b(0, 1) + a(0, 1) * b(1, 1) + a(0, 2) * b(2, 1),
 		a(0, 0) * b(0, 2) + a(0, 1) * b(1, 2) + a(0, 2) * b(2, 2),
+
 		a(1, 0) * b(0, 0) + a(1, 1) * b(1, 0) + a(1, 2) * b(2, 0),
 		a(1, 0) * b(0, 1) + a(1, 1) * b(1, 1) + a(1, 2) * b(2, 1),
 		a(1, 0) * b(0, 2) + a(1, 1) * b(1, 2) + a(1, 2) * b(2, 2),
+
 		a(2, 0) * b(0, 0) + a(2, 1) * b(1, 0) + a(2, 2) * b(2, 0),
 		a(2, 0) * b(0, 1) + a(2, 1) * b(1, 1) + a(2, 2) * b(2, 1),
 		a(2, 0) * b(0, 2) + a(2, 1) * b(1, 2) + a(2, 2) * b(2, 2)
@@ -142,6 +167,13 @@ Matrix3d inverse(const Matrix3d& m)
 	) * invDet;
 }
 
+#if 0
+Matrix3d transform()
+{
+	return Matrix3d();
+}
+#endif
+
 Matrix3d rotateX(float angle)
 {
 	float c = cos(angle);
@@ -176,4 +208,113 @@ Matrix3d rotateZ(float angle)
 		-s,	  c,	0.0F,
 		0.0F, 0.0F, 1.0F
 	);
+}
+
+Matrix3d rotate(const Vector3d& r)
+{
+	return rotateX(r.x) + rotateY(r.y) + rotateZ(r.z);
+}
+
+Matrix3d rotateTowards(float angle, const Vector3d& a)
+{
+	float c = cos(angle);
+	float s = sin(angle);
+	float d = 1 - c;
+
+	float x = a.x * d;
+	float y = a.y * d;
+	float z = a.z * d;
+
+	float axay = x * a.y;	//a.x * a.y * (1 - cos)
+	float axaz = x * a.z;	//a.x * a.z * (1 - cos)
+	float ayaz = y * a.z;	//a.y * a.z * (1 - cos)
+
+	return Matrix3d(
+		c + x * a.x,		axay - s * a.z,		axaz + s * a.y,
+		axay + s * a.z,		c + y * a.y,		ayaz - s * a.x,
+		axaz - s * a.y,		ayaz + s * a.x,		c + z * a.z
+	);
+}
+
+Matrix3d scale(float sx, float sy, float sz)
+{
+	return Matrix3d(
+		sx,	0,	0,
+		0,	sy, 0,
+		0,	0,	sz
+	);
+}
+
+Matrix3d scale(const Vector3d& s)
+{
+	return Matrix3d(
+		s.x,	0,		0,
+		0,		s.y,	0,
+		0,		0,		s.z
+	);
+}
+
+Matrix3d scaleTowards(float s, const Vector3d& a)
+{
+	s -= 1.0F;
+
+	float x = a.x * s;
+	float y = a.y * s;
+	float z = a.z * s;
+
+	float axay = x * a.y;
+	float axaz = x * a.z;
+	float ayaz = y * a.z;
+
+	return Matrix3d(
+		x * a.x + 1.0F,		axay,				axaz,
+		axay,				y * a.y + 1.0F,		ayaz,
+		axaz,				ayaz,				z * a.z + 1.0F
+	);
+}
+
+#if 0
+Matrix3d skew()
+{
+	return Matrix3d();
+}
+#endif
+
+Matrix3d reflect(const Vector3d& a)
+{
+	float x = -2.0F * a.x;
+	float y = -2.0F * a.y;
+	float z = -2.0F * a.z;
+	float axay = x * a.y;
+	float axaz = x * a.z;
+	float ayaz = y * a.z;
+
+	return Matrix3d(
+		x * a.x + 1.0F,		axay,				axaz,
+		axay,				y * a.y + 1.0F,		ayaz,
+		axaz,				ayaz,				z * a.z + 1.0F
+	);
+}
+
+#if 0
+Matrix3d involution(const Vector3d& a)
+{
+	float x = 2.0F * a.x;
+	float y = 2.0F * a.y;
+	float z = 2.0F * a.z;
+	float axay = x * a.y;
+	float axaz = x * a.z;
+	float ayaz = y * a.z;
+
+	return Matrix3d(
+		x * a.x - 1.0F,		axay,				axaz,
+		axay,				y * a.y - 1.0F,		ayaz,
+		axaz,				ayaz,				z * a.z - 1.0F
+	);
+}
+#endif
+
+Matrix3d involution(const Vector3d& a)
+{
+	return reflect(a) * -1.0F;
 }

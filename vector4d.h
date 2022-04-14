@@ -4,15 +4,16 @@
 
 struct Vector4d
 {
-	float x, y, z;
+	float x, y, z, w;
 
 	Vector4d() = default;
 
-	Vector4d(float x, float y, float z)
+	Vector4d(float x, float y, float z, float w)
 	{
 		this->x = x;
 		this->y = y;
 		this->z = z;
+		this->w = w;
 	}
 
 	float& operator[](int index)
@@ -31,6 +32,7 @@ struct Vector4d
 		this->x *= s;
 		this->y *= s;
 		this->z *= s;
+		this->w *= s;
 		return (*this);
 	}
 
@@ -40,6 +42,7 @@ struct Vector4d
 		this->x *= s;
 		this->y *= s;
 		this->z *= s;
+		this->w *= s;
 		return (*this);
 	}
 
@@ -48,6 +51,7 @@ struct Vector4d
 		x += v.x;
 		y += v.y;
 		z += v.z;
+		w += v.w;
 		return (*this);
 	}
 
@@ -56,6 +60,7 @@ struct Vector4d
 		x -= v.x;
 		y -= v.y;
 		z -= v.z;
+		w -= v.w;
 		return (*this);
 	}
 };

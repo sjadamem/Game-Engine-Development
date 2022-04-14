@@ -19,32 +19,18 @@ public:
 		float n20, float n21, float n22
 	)
 	{
-		n[0][0] = n00;	
-		n[0][1] = n10;	
-		n[0][2] = n20;
-		
-		n[1][0] = n01;	
-		n[1][1] = n11;	
-		n[1][2] = n21;
-		
-		n[2][0] = n02;	
-		n[2][1] = n12;	
-		n[2][2] = n22;
+		n[0][0] = n00;	n[1][0] = n01;	n[2][0] = n02;
+
+		n[0][1] = n10;	n[1][1] = n11;	n[2][1] = n12;
+
+		n[0][2] = n20;	n[1][2] = n21;	n[2][2] = n22;
 	}
 
 	Matrix3d(const Vector3d& a, const Vector3d& b, const Vector3d& c)
 	{
-		n[0][0] = a.x;
-		n[0][1] = a.y;
-		n[0][2] = a.z;
-		
-		n[1][0] = b.x;
-		n[1][1] = b.y;
-		n[1][2] = b.z;
-		
-		n[2][0] = c.x;
-		n[2][1] = c.y;
-		n[2][2] = c.z;
+		n[0][0] = a.x;	n[1][0] = b.x;	n[2][0] = c.x;
+		n[0][1] = a.y;	n[1][1] = b.y;	n[2][1] = c.y;
+		n[0][2] = a.z;	n[1][2] = b.z;	n[2][2] = c.z;
 	}
 
 	float& operator() (int i, int j)
@@ -71,9 +57,9 @@ public:
 Matrix3d operator-(const Matrix3d& a)
 {
 	return Matrix3d(
-		-a(0,0), -a(0,1), -a(0,2),
-		-a(1,0), -a(1,1), -a(1,2),
-		-a(2,0), -a(2,1), -a(2,2)
+		-a(0,0),	-a(0,1),	-a(0,2),
+		-a(1,0),	-a(1,1),	-a(1,2),
+		-a(2,0),	-a(2,1),	-a(2,2)
 	);
 }
 
@@ -89,23 +75,6 @@ Matrix3d operator+(const Matrix3d& a, const Matrix3d& b)
 Matrix3d operator-(const Matrix3d& a, const Matrix3d& b)
 {
 	return a + (-b);
-}
-
-Matrix3d operator*(const Matrix3d& a, const Matrix3d& b)
-{
-	return Matrix3d(
-		a(0, 0) * b(0, 0) + a(0, 1) * b(1, 0) + a(0, 2) * b(2, 0),
-		a(0, 0) * b(0, 1) + a(0, 1) * b(1, 1) + a(0, 2) * b(2, 1),
-		a(0, 0) * b(0, 2) + a(0, 1) * b(1, 2) + a(0, 2) * b(2, 2),
-
-		a(1, 0) * b(0, 0) + a(1, 1) * b(1, 0) + a(1, 2) * b(2, 0),
-		a(1, 0) * b(0, 1) + a(1, 1) * b(1, 1) + a(1, 2) * b(2, 1),
-		a(1, 0) * b(0, 2) + a(1, 1) * b(1, 2) + a(1, 2) * b(2, 2),
-
-		a(2, 0) * b(0, 0) + a(2, 1) * b(1, 0) + a(2, 2) * b(2, 0),
-		a(2, 0) * b(0, 1) + a(2, 1) * b(1, 1) + a(2, 2) * b(2, 1),
-		a(2, 0) * b(0, 2) + a(2, 1) * b(1, 2) + a(2, 2) * b(2, 2)
-	);
 }
 
 Matrix3d operator*(const Matrix3d& a, float b)
@@ -132,20 +101,37 @@ Vector3d operator*(const Matrix3d& m, const Vector3d& v)
 	);
 }
 
+Matrix3d operator* (const Matrix3d& a, const Matrix3d& b)
+{
+	return Matrix3d(
+		a(0, 0) * b(0, 0) + a(0, 1) * b(1, 0) + a(0, 2) * b(2, 0),				//n00
+		a(0, 0) * b(0, 1) + a(0, 1) * b(1, 1) + a(0, 2) * b(2, 1),				//n01
+		a(0, 0) * b(0, 2) + a(0, 1) * b(1, 2) + a(0, 2) * b(2, 2),				//n02
+
+		a(1, 0) * b(0, 0) + a(1, 1) * b(1, 0) + a(1, 2) * b(2, 0),				//n10
+		a(1, 0) * b(0, 1) + a(1, 1) * b(1, 1) + a(1, 2) * b(2, 1),				//n11
+		a(1, 0) * b(0, 2) + a(1, 1) * b(1, 2) + a(1, 2) * b(2, 2),				//n12
+
+		a(2, 0) * b(0, 0) + a(2, 1) * b(1, 0) + a(2, 2) * b(2, 0),				//n20
+		a(2, 0) * b(0, 1) + a(2, 1) * b(1, 1) + a(2, 2) * b(2, 1),				//n21
+		a(2, 0) * b(0, 2) + a(2, 1) * b(1, 2) + a(2, 2) * b(2, 2)				//n22
+	);
+}
+
 inline Matrix3d identity()
 {
 	return Matrix3d(
-		1.0F, 0.0F, 0.0F,
-		0.0F, 1.0F, 0.0F,
-		0.0F, 0.0F, 1.0F
+		1.0F,	0.0F,	0.0F,
+		0.0F,	1.0F,	0.0F,
+		0.0F,	0.0F,	1.0F
 	);
 }
 
 float determinant(const Matrix3d& m)
 {
-	return (m(0, 0) * m(1, 1) * m(2, 2) - m(0, 0) * m(1, 2) * m(2, 1)) +
-		(m(0, 1) * m(1, 2) * m(2, 0) - m(0, 1) * m(1, 0) * m(2, 2)) +
-		(m(0, 2) * m(1, 0) * m(2, 1) - m(0, 2) * m(1, 1) * m(2, 0));
+	return m(0, 0) * (m(1, 1) * m(2, 2) - m(1, 2) * m(2, 1)) 
+		 + m(0, 1) * (m(1, 2) * m(2, 0) - m(1, 0) * m(2, 2))
+		 + m(0, 2) * (m(1, 0) * m(2, 1) - m(1, 1) * m(2, 0));
 }
 
 Matrix3d inverse(const Matrix3d& m)
@@ -167,12 +153,23 @@ Matrix3d inverse(const Matrix3d& m)
 	) * invDet;
 }
 
-#if 0
-Matrix3d transform()
+Matrix3d translate(float tx, float ty, float tz)
 {
-	return Matrix3d();
+	return Matrix3d(
+		0.0F, 0.0F, tx,
+		0.0F, 0.0F, ty,
+		0.0F, 0.0F, tz
+	);
 }
-#endif
+
+Matrix3d translate(const Vector3d& t)
+{
+	return Matrix3d(
+		0.0F, 0.0F, t.x,
+		0.0F, 0.0F, t.y,
+		0.0F, 0.0F, t.z
+	);
+}
 
 Matrix3d rotateX(float angle)
 {
@@ -181,8 +178,8 @@ Matrix3d rotateX(float angle)
 
 	return Matrix3d(
 		1.0F, 0.0F, 0.0F,
-		0.0F, c,	-s,
-		0.0F, s,	c
+		0.0F, c, -s,
+		0.0F, s, c
 	);
 }
 
@@ -192,9 +189,9 @@ Matrix3d rotateY(float angle)
 	float s = sin(angle);
 
 	return Matrix3d(
-		c,	  0.0F, s,
+		c, 0.0F, s,
 		0.0F, 0.0F, 1.0F,
-		-s,   0.0F, c
+		-s, 0.0F, c
 	);
 }
 
@@ -204,8 +201,8 @@ Matrix3d rotateZ(float angle)
 	float s = sin(angle);
 
 	return Matrix3d(
-		c,	  s,	0.0F,
-		-s,	  c,	0.0F,
+		c, s, 0.0F,
+		-s, c, 0.0F,
 		0.0F, 0.0F, 1.0F
 	);
 }
@@ -230,27 +227,27 @@ Matrix3d rotateTowards(float angle, const Vector3d& a)
 	float ayaz = y * a.z;	//a.y * a.z * (1 - cos)
 
 	return Matrix3d(
-		c + x * a.x,		axay - s * a.z,		axaz + s * a.y,
-		axay + s * a.z,		c + y * a.y,		ayaz - s * a.x,
-		axaz - s * a.y,		ayaz + s * a.x,		c + z * a.z
+		c + x * a.x, axay - s * a.z, axaz + s * a.y,
+		axay + s * a.z, c + y * a.y, ayaz - s * a.x,
+		axaz - s * a.y, ayaz + s * a.x, c + z * a.z
 	);
 }
 
 Matrix3d scale(float sx, float sy, float sz)
 {
 	return Matrix3d(
-		sx,	0,	0,
-		0,	sy, 0,
-		0,	0,	sz
+		sx, 0, 0,
+		0, sy, 0,
+		0, 0, sz
 	);
 }
 
 Matrix3d scale(const Vector3d& s)
 {
 	return Matrix3d(
-		s.x,	0,		0,
-		0,		s.y,	0,
-		0,		0,		s.z
+		s.x, 0, 0,
+		0, s.y, 0,
+		0, 0, s.z
 	);
 }
 
@@ -267,9 +264,9 @@ Matrix3d scaleTowards(float s, const Vector3d& a)
 	float ayaz = y * a.z;
 
 	return Matrix3d(
-		x * a.x + 1.0F,		axay,				axaz,
-		axay,				y * a.y + 1.0F,		ayaz,
-		axaz,				ayaz,				z * a.z + 1.0F
+		x * a.x + 1.0F, axay, axaz,
+		axay, y * a.y + 1.0F, ayaz,
+		axaz, ayaz, z * a.z + 1.0F
 	);
 }
 
@@ -290,9 +287,9 @@ Matrix3d reflect(const Vector3d& a)
 	float ayaz = y * a.z;
 
 	return Matrix3d(
-		x * a.x + 1.0F,		axay,				axaz,
-		axay,				y * a.y + 1.0F,		ayaz,
-		axaz,				ayaz,				z * a.z + 1.0F
+		x * a.x + 1.0F, axay, axaz,
+		axay, y * a.y + 1.0F, ayaz,
+		axaz, ayaz, z * a.z + 1.0F
 	);
 }
 
@@ -307,9 +304,9 @@ Matrix3d involution(const Vector3d& a)
 	float ayaz = y * a.z;
 
 	return Matrix3d(
-		x * a.x - 1.0F,		axay,				axaz,
-		axay,				y * a.y - 1.0F,		ayaz,
-		axaz,				ayaz,				z * a.z - 1.0F
+		x * a.x - 1.0F, axay, axaz,
+		axay, y * a.y - 1.0F, ayaz,
+		axaz, ayaz, z * a.z - 1.0F
 	);
 }
 #endif

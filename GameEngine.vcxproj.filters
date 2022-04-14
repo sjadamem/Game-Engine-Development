@@ -32,5 +32,11 @@
     <ClInclude Include="vector4d.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="point3d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="transform4d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,6 +2,7 @@
 
 #include "vector3d.h"
 #include "matrix3d.h"
+#include "transform4d.h"
 
 using namespace std;
 
@@ -38,5 +39,30 @@ int main()
 	cout << "DOT PRODUCT (v1 * v2)\n" << dot(v1, v2) << endl;
 	cout << "DETERMINANT (m1)\n" << determinant(m2) << endl;
 	
+	Transform4d h(
+		1.0F, 2.0F, 1.0F, 2.0F,
+		2.0F, 3.0F, 3.0F, 0.0F,
+		3.0F, 1.0F, 2.0F, 1.0F
+	);
+
+	Transform4d invH = inverse(h);
+	cout << "\n\nINVERSE MATRIX::\n[0] -> " 
+					  << invH(0, 0) << endl;
+	cout << "[1] -> " << invH(1, 0) << endl;
+	cout << "[2] -> " << invH(2, 0) << endl;
+//	cout << "[3] -> " << invH(3, 0) << endl;
+	cout << "[4] -> " << invH(0, 1) << endl;
+	cout << "[5] -> " << invH(1, 1) << endl;
+	cout << "[6] -> " << invH(2, 1) << endl;
+//	cout << "[7] -> " << invH(3, 1) << endl;
+	cout << "[8] -> " << invH(0, 2) << endl;
+	cout << "[9] -> " << invH(1, 2) << endl;
+	cout << "[10]-> " << invH(2, 2) << endl;
+//	cout << "[11]-> " << invH(3, 2) << endl;
+	cout << "[12]-> " << invH(0, 3) << endl;
+	cout << "[13]-> " << invH(1, 3) << endl;
+	cout << "[14]-> " << invH(2, 3) << endl;
+	cout << "[15]-> " << invH(3, 3) << endl;
+
 	system("pause");
 }

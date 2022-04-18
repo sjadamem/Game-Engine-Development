@@ -8,61 +8,99 @@ using namespace std;
 
 int main()
 {
-	cout << "hello world" << endl;
-
-	Vector3d v1(3.0f, 2.0f, 1.0f);
-	Matrix3d m1(
-		1.0f, 6.0f, 9.0f,
-		2.0f, 5.0f, 8.0f,
-		3.0f, 4.0f, 7.0f
+	Matrix3d a(
+		0.0F, 1.0F, 2.0F,
+		2.0F, 3.0F, 4.0F,
+		2.0F, 2.0F, 1.0F
 	);
-	Matrix3d m2(
-		3.0f, 3.0f, 3.0f,
-		2.0f, 2.0f, 2.0f,
-		1.0f, 1.0f, 1.0f
+	Matrix3d b(
+		3.0F, 1.0F, 0.0F,
+		4.0F, 2.0F, 1.0F,
+		1.0F, 3.0F, 4.0F
 	);
-	Vector3d v2 = m1 * v1;
-	Matrix3d m3 = m1 * m2;
+	Matrix3d c = a * b;
+	cout << "MATRIX C :: Product of Matrix3d A and B" << endl;
+	printf("[0]\t-> %5.2f\n", c(0, 0));
+	printf("[1]\t-> %5.2f\n", c(1, 0));
+	printf("[2]\t-> %5.2f\n", c(2, 0));
+	printf("[3]\t-> %5.2f\n", c(0, 1));
+	printf("[4]\t-> %5.2f\n", c(1, 1));
+	printf("[5]\t-> %5.2f\n", c(2, 1));
+	printf("[6]\t-> %5.2f\n", c(0, 2));
+	printf("[7]\t-> %5.2f\n", c(1, 2));
+	printf("[8]\t-> %5.2f\n", c(2, 2));
 
-	cout << "VECTOR::\nX\t" << v2.x << "\nY\t" << v2.y << "\nZ\t" << v2.z << endl;
+	Matrix3d d = c * 5.0F;
+	cout << "\nMATRIX D :: Product of Matrix3d C and 5.0F" << endl;
+	printf("[0]\t-> %6.2f\n", d(0, 0));
+	printf("[1]\t-> %6.2f\n", d(1, 0));
+	printf("[2]\t-> %6.2f\n", d(2, 0));
+	printf("[3]\t-> %6.2f\n", d(0, 1));
+	printf("[4]\t-> %6.2f\n", d(1, 1));
+	printf("[5]\t-> %6.2f\n", d(2, 1));
+	printf("[6]\t-> %6.2f\n", d(0, 2));
+	printf("[7]\t-> %6.2f\n", d(1, 2));
+	printf("[8]\t-> %6.2f\n", d(2, 2));
 
-	cout << "MATRIX::\n[0] -> " << m3(0, 0) << endl;
-	cout << "[1] -> " << m3(1, 0) << endl;
-	cout << "[2] -> " << m3(2, 0) << endl;
-	cout << "[3] -> " << m3(0, 1) << endl;
-	cout << "[4] -> " << m3(1, 1) << endl;
-	cout << "[5] -> " << m3(2, 1) << endl;
-	cout << "[6] -> " << m3(0, 2) << endl;
-	cout << "[7] -> " << m3(1, 2) << endl;
-	cout << "[8] -> " << m3(2, 2) << endl;
-	
-	cout << "DOT PRODUCT (v1 * v2)\n" << dot(v1, v2) << endl;
-	cout << "DETERMINANT (m1)\n" << determinant(m2) << endl;
-	
-	Transform4d h(
-		1.0F, 2.0F, 1.0F, 2.0F,
-		2.0F, 3.0F, 3.0F, 0.0F,
-		3.0F, 1.0F, 2.0F, 1.0F
+	d = -d;
+	cout << "\nMATRIX D :: Negative Matrix3d D" << endl;
+	printf("[0]\t-> %7.2f\n", d(0, 0));
+	printf("[1]\t-> %7.2f\n", d(1, 0));
+	printf("[2]\t-> %7.2f\n", d(2, 0));
+	printf("[3]\t-> %7.2f\n", d(0, 1));
+	printf("[4]\t-> %7.2f\n", d(1, 1));
+	printf("[5]\t-> %7.2f\n", d(2, 1));
+	printf("[6]\t-> %7.2f\n", d(0, 2));
+	printf("[7]\t-> %7.2f\n", d(1, 2));
+	printf("[8]\t-> %7.2f\n", d(2, 2));
+
+	Vector3d a1(1.0F, 2.0F, 3.0F);
+	Vector3d b1(6.0F, 5.0F, 4.0F);
+	Vector3d c1(7.0F, 8.0F, 9.0F);
+	Matrix3d e(
+		a1, b1, c1
 	);
+	cout << "\nMATRIX E :: Create Matrix3d E with 3 Vector3ds" << endl;
+	printf("[0]\t-> %5.2f\n", e(0, 0));
+	printf("[1]\t-> %5.2f\n", e(1, 0));
+	printf("[2]\t-> %5.2f\n", e(2, 0));
+	printf("[3]\t-> %5.2f\n", e(0, 1));
+	printf("[4]\t-> %5.2f\n", e(1, 1));
+	printf("[5]\t-> %5.2f\n", e(2, 1));
+	printf("[6]\t-> %5.2f\n", e(0, 2));
+	printf("[7]\t-> %5.2f\n", e(1, 2));
+	printf("[8]\t-> %5.2f\n", e(2, 2));
 
-	Transform4d invH = inverse(h);
-	cout << "\n\nINVERSE MATRIX::\n[0] -> " 
-					  << invH(0, 0) << endl;
-	cout << "[1] -> " << invH(1, 0) << endl;
-	cout << "[2] -> " << invH(2, 0) << endl;
-//	cout << "[3] -> " << invH(3, 0) << endl;
-	cout << "[4] -> " << invH(0, 1) << endl;
-	cout << "[5] -> " << invH(1, 1) << endl;
-	cout << "[6] -> " << invH(2, 1) << endl;
-//	cout << "[7] -> " << invH(3, 1) << endl;
-	cout << "[8] -> " << invH(0, 2) << endl;
-	cout << "[9] -> " << invH(1, 2) << endl;
-	cout << "[10]-> " << invH(2, 2) << endl;
-//	cout << "[11]-> " << invH(3, 2) << endl;
-	cout << "[12]-> " << invH(0, 3) << endl;
-	cout << "[13]-> " << invH(1, 3) << endl;
-	cout << "[14]-> " << invH(2, 3) << endl;
-	cout << "[15]-> " << invH(3, 3) << endl;
+	cout << "\nMATRIX E :: Determinant of Matrix3d E\n" << determinant(e) << endl;
+
+	Matrix3d f(
+		3.0F, 4.0F, 5.0F,
+		5.0F, 1.0F, 2.0F,
+		5.0F, 2.0F, 1.0F
+	);
+	f = inverse(f);
+	cout << "\nMATRIX C :: Inverse of Matrix3d F" << endl;
+	printf("[0]\t-> %7.3f\n", f(0, 0));
+	printf("[1]\t-> %7.3f\n", f(1, 0));
+	printf("[2]\t-> %7.3f\n", f(2, 0));
+	printf("[3]\t-> %7.3f\n", f(0, 1));
+	printf("[4]\t-> %7.3f\n", f(1, 1));
+	printf("[5]\t-> %7.3f\n", f(2, 1));
+	printf("[6]\t-> %7.3f\n", f(0, 2));
+	printf("[7]\t-> %7.3f\n", f(1, 2));
+	printf("[8]\t-> %7.3f\n", f(2, 2));
+
+	Matrix3d g = identity() * rotateZ(30.0F) * rotateY(20.0F) * rotateX(40.0F);
+	cout << "\nMATRIX C :: Rotation Matrix3d G (40, 20, 30)" << endl;
+	printf("[0]\t-> %7.3f\n", g(0, 0));
+	printf("[1]\t-> %7.3f\n", g(1, 0));
+	printf("[2]\t-> %7.3f\n", g(2, 0));
+	printf("[3]\t-> %7.3f\n", g(0, 1));
+	printf("[4]\t-> %7.3f\n", g(1, 1));
+	printf("[5]\t-> %7.3f\n", g(2, 1));
+	printf("[6]\t-> %7.3f\n", g(0, 2));
+	printf("[7]\t-> %7.3f\n", g(1, 2));
+	printf("[8]\t-> %7.3f\n", g(2, 2));
 
 	system("pause");
 }

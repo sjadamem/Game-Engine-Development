@@ -153,63 +153,50 @@ Matrix3d inverse(const Matrix3d& m)
 	) * invDet;
 }
 
-Matrix3d translate(float tx, float ty, float tz)
-{
-	return Matrix3d(
-		0.0F, 0.0F, tx,
-		0.0F, 0.0F, ty,
-		0.0F, 0.0F, tz
-	);
-}
-
-Matrix3d translate(const Vector3d& t)
-{
-	return Matrix3d(
-		0.0F, 0.0F, t.x,
-		0.0F, 0.0F, t.y,
-		0.0F, 0.0F, t.z
-	);
-}
-
+/*
+Rotation functions not working how I expected. Need to do some more research.
+*/
 Matrix3d rotateX(float angle)
 {
 	float c = cos(angle);
 	float s = sin(angle);
 
 	return Matrix3d(
-		1.0F, 0.0F, 0.0F,
-		0.0F, c, -s,
-		0.0F, s, c
+		1.0F,	0.0F,	0.0F,
+		0.0F,	c,		s,
+		0.0F,	-s,		c
 	);
 }
 
+//corrected returning matrix3d
 Matrix3d rotateY(float angle)
 {
 	float c = cos(angle);
 	float s = sin(angle);
 
 	return Matrix3d(
-		c, 0.0F, s,
-		0.0F, 0.0F, 1.0F,
-		-s, 0.0F, c
+		c,		0.0F,	-s,
+		0.0F,	1.0F,	0.0F,
+		s,		0.0F,	c
 	);
 }
 
+//corrected returning matrix3d
 Matrix3d rotateZ(float angle)
 {
 	float c = cos(angle);
 	float s = sin(angle);
 
 	return Matrix3d(
-		c, s, 0.0F,
-		-s, c, 0.0F,
-		0.0F, 0.0F, 1.0F
+		c,		s,		0.0F,
+		-s,		c,		0.0F,
+		0.0F,	0.0F,	1.0F
 	);
 }
 
 Matrix3d rotate(const Vector3d& r)
 {
-	return rotateX(r.x) + rotateY(r.y) + rotateZ(r.z);
+	return rotateZ(r.z) * rotateY(r.y) * rotateX(r.x);
 }
 
 Matrix3d rotateTowards(float angle, const Vector3d& a)
@@ -227,9 +214,9 @@ Matrix3d rotateTowards(float angle, const Vector3d& a)
 	float ayaz = y * a.z;	//a.y * a.z * (1 - cos)
 
 	return Matrix3d(
-		c + x * a.x, axay - s * a.z, axaz + s * a.y,
-		axay + s * a.z, c + y * a.y, ayaz - s * a.x,
-		axaz - s * a.y, ayaz + s * a.x, c + z * a.z
+		c + x * a.x,		axay - s * a.z,		axaz + s * a.y,
+		axay + s * a.z,		c + y * a.y,		ayaz - s * a.x,
+		axaz - s * a.y,		ayaz + s * a.x,		c + z * a.z
 	);
 }
 
@@ -287,9 +274,9 @@ Matrix3d reflect(const Vector3d& a)
 	float ayaz = y * a.z;
 
 	return Matrix3d(
-		x * a.x + 1.0F, axay, axaz,
-		axay, y * a.y + 1.0F, ayaz,
-		axaz, ayaz, z * a.z + 1.0F
+		x * a.x + 1.0F,		axay,				axaz,
+		axay,				y * a.y + 1.0F,		ayaz,
+		axaz,				ayaz,				z * a.z + 1.0F
 	);
 }
 
